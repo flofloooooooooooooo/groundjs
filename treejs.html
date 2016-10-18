@@ -206,31 +206,13 @@ stats.domElement.style.top = '0px';
 document.body.appendChild(stats.domElement);
 }
 
-/*function render()
+function render()
 {
     cameraControl.update();
     renderer.render(scene,camera);
     requestAnimationFrame(render);
     renderer.autoClear = false;
     //composer.render();
-}*/
-function render()
-{
-var rotSpeed=control.rotationSpeed;
-var lune = scene.getObjectByName('lune');
-var terre = scene.getObjectByName('terre');
-var nuages = scene.getObjectByName('nuages');
-lune.position.x=lune.position.x*Math.cos(rotSpeed/4)+lune.position.z*Math.sin(rotSpeed/4);
-lune.position.z=lune.position.z*Math.cos(rotSpeed/4)-lune.position.x*Math.sin(rotSpeed/4);
-terre.material.opacity = control.opacity;
-terre.material.color = new THREE.Color(control.color);
-terre.rotateY(rotSpeed);
-nuages.rotateY(rotSpeed);
-lune.rotateY(rotSpeed*2);
-stats.update();
-cameraControl.update();
-renderer.render(scene,camera);
-requestAnimationFrame(render);
 }
 
 function handleResize()
