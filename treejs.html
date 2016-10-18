@@ -64,7 +64,7 @@ function init() {
     {
         for(var x=0;x<width;x++)
         {   
-            var yValue = Math.abs(noise.perlin2(x/8, z/8) * height*2);
+            var yValue = Math.abs(noise.perlin2(x/8,z/8) * height*2);
             //var yValue = Math.random()*height;
             var vertex = new THREE.Vector3(x*spacingX,yValue,z*spacingZ);
             geometry.vertices.push(vertex);
