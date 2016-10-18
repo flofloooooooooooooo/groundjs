@@ -17,8 +17,8 @@
 	<body>
 		<script>
     var camera, scene, renderer, geometry, material, mesh,stats;
-    var MAX_HEIGHT = 10;
-    var scale = chroma.scale(['blue', 'green', 'red']).domain([0,MAX_HEIGHT]);
+    var height = 10;
+    var scale = chroma.scale(['blue', 'green', 'red']).domain([0,height]);
 init();
  
 function getHighPoint(geometry, face) {
@@ -37,7 +37,6 @@ function addControlGui(controlObject){
 function init() {
     var depth = 30;
     var width =30;
-    var height = MAX_HEIGHT;
     var spacingX = 2.5;
     var spacingZ = 2.5;
 
