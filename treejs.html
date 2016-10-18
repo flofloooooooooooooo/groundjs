@@ -33,8 +33,8 @@ function addControlGui(controlObject){
 }
 function init() {
     var depth = 10;
-    var width =10;
-    var height = 10;
+    var width =30;
+    var height = 30;
     var spacingX = 10;
     var spacingZ = 10;
 
@@ -114,13 +114,8 @@ function init() {
     scene.add(groundMesh);
     
     //*******************************************
-    var spotLight = new THREE.SpotLight(0xffffff);
-    spotLight.position.set(10,20,20);
-    spotLight.shadowCameraNear=20;
-    spotLight.shadowCameraFar=50;
-    spotLight.castShadow=true;
-
-    scene.add(spotLight);
+    var light = new THREE.AmbientLight( 0x404040 ); // soft white light
+    scene.add( light );
 
     control = new function(){
     this.rotationSpeed = 0.005;
