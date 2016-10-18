@@ -6,6 +6,7 @@
 		<script src="https://dl.dropboxusercontent.com/u/3587259/Code/Threejs/OrbitControls.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/1.2.1/chroma.min.js"></script>
+        <script src="libs/perlinn.js"></script>
         
         
 		
@@ -51,7 +52,7 @@ function init() {
 
     camera.position.x=200;
     camera.position.y=200;
-    camera.position.z=0;
+    camera.position.z=10;
     camera.lookAt(scene.position);
 
     cameraControl = new  THREE.OrbitControls(camera);
@@ -62,11 +63,11 @@ function init() {
     for(var z=0;z<depth;z++)
     {
         for(var x=0;x<width;x++)
-        {
-            var vertex = new THREE.Vector3(x*spacingX,Math.random()*height,z*spacingZ);
+        {   
+            var yValue = Math.abs(noise.perlin2(x/8, z/8) * height*2);
+            //var yValue = Math.random()*height;
+            var vertex = new THREE.Vector3(x*spacingX,yValue,z*spacingZ);
             geometry.vertices.push(vertex);
-
-            console.log(geometry);
         }
     }
 
