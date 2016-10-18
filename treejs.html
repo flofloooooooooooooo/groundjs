@@ -37,9 +37,9 @@ function addControlGui(controlObject){
 function init() {
     var depth = 30;
     var width =30;
-    var height = 50;
-    var spacingX = 30;
-    var spacingZ = 30;
+    var height = MAX_HEIGHT;
+    var spacingX = 2.5;
+    var spacingZ = 2.5;
 
     scene = new THREE.Scene();
     camera = new  THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 10000);
