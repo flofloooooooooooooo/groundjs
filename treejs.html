@@ -17,7 +17,11 @@
 	<body>
 		<script>
     var camera, scene, renderer, geometry, material, mesh,stats;
-    var height = 10;
+    var height = 7;
+    var depth = 50;
+    var width =50;
+    var spacingX = 2.5;
+    var spacingZ = 2.5;
     var scale = chroma.scale(['blue', 'green', 'red']).domain([0,height]);
 init();
  
@@ -35,10 +39,6 @@ function addControlGui(controlObject){
  gui.addColor(controlObject,'color');
 }
 function init() {
-    var depth = 30;
-    var width =30;
-    var spacingX = 2.5;
-    var spacingZ = 2.5;
 
     scene = new THREE.Scene();
     camera = new  THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 10000);
