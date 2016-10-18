@@ -71,49 +71,31 @@ function init() {
     }
 
 
-    //Faces
-    for(var z=0;z<depth-1;z++)
-    {
-        for(var x=0;x<width-1;x++)
-        {
-            var a = x+z*width;
-            var b = (x+1) + (z*width);
-            var c = x + ((z+1)*width);
-            var d = (x+1) + ((z+1) * width);
-
-            var face1 = new THREE.Face3(a,b,c);
-            var face2 = new THREE.Face3(a,b,c);
-
-            console.log(chroma.scale(getHighPoint(geometry,face1)));
-
-            //*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*
-            //*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!
-            //*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*
-            //face1.color=new THREE.Color(chroma.scale(getHighPoint(geometry,face1)).colors(1));
-            //face2.color=new THREE.Color(chroma.scale(getHighPoint(geometry,face2)).colors(1));
-             face1.color = new THREE.Color(scale(getHighPoint(geometry, face1)).hex());
-                face2.color = new THREE.Color(scale(getHighPoint(geometry, face2)).hex());
-
+    for (var z = 0 ; z < depth - 1 ; z++) {
+        for (var x = 0 ; x < width - 1 ; x++) {
+            var a = x + z * width;
+            var b = (x + 1) + (z * width);
+            var c = x + ((z + 1) * width);
+            var d = (x + 1) + ((z + 1) * width);
+            var face1 = new THREE.Face3(b, a, c);
+            var face2 = new THREE.Face3(c, d, b);
+            face1.color = new THREE.Color(scale(getHighPoint(geometry, face1)).hex());
+            face2.color = new THREE.Color(scale(getHighPoint(geometry, face2)).hex());
             geometry.faces.push(face1);
             geometry.faces.push(face2);
         }
     }
-
-    //compute the normals
     geometry.computeVertexNormals(true);
     geometry.computeFaceNormals();
-
-    //setup the materials
     var mat = new THREE.MeshPhongMaterial();
-    var vertexColors = THREE.FaceColors;
-    mat.shading=THREE.NoShading;
-
-    //create the mesh
-    var groundMesh = new THREE.Mesh(geometry,mat);
-    groundMesh.translateX(-width/1.5);
-    groundMesh.translateZ(-depth/4);
-    groundMesh.name='terrain';
-
+    // mat.map = THREE.ImageUtils.loadTexture("../textures/grass.jpg");
+    mat.vertexColors = THREE.FaceColors;
+    mat.shading = THREE.NoShading;
+    var groundMesh = new THREE.Mesh(geometry, mat);
+    groundMesh.translateX(-width / 1.5);
+    groundMesh.translateZ(-depth / 4);
+    groundMesh.translateY(50);
+    groundMesh.name = 'terrain';
     scene.add(groundMesh);
     
     //*******************************************
@@ -123,14 +105,6 @@ function init() {
     spotlight.shadowCameraNear = 20;
     spotlight.shadowCameraFar = 50;
     scene.add(spotlight);
-
-    control = new function(){
-    this.rotationSpeed = 0.005;
-    this.opacity = 0.6;
-    this.color = "#ff0000";
-    };
-    addControlGui(control);
-    addStatsObject();
 
     document.body.appendChild(renderer.domElement);
 
