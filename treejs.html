@@ -1,0 +1,128 @@
+<html>
+	<head>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5.1/dat.gui.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r16/Stats.js"></script>
+		<script src="https://dl.dropboxusercontent.com/u/3587259/Code/Threejs/OrbitControls.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		
+		<script src="./libs/EffectComposer.js"></script>
+		<script src="./libs/RenderPass.js"></script>
+		<script src="./libs/CopyShader.js"></script>
+		<script src="./libs/ShaderPass.js"></script>
+		<script src="./libs/MaskPass.js"></script>
+	</head>
+	<body>
+		<script>
+			var camera, scene, renderer, geometry, material, mesh,stats;
+            
+init();
+
+function init() {
+   var geometry = new THREE.Geometry();
+   
+    //Vectrices
+   for(var z=0;z<depth;z++)
+    {
+        for(var x=0;x<width;x++)
+        {
+            var vertex = new THREE.Vector(x*spacingX,Math.random()*height,z*spacingZ);
+            geometry.vectrices.push(vertex);
+        }
+    }
+       
+    
+    //Faces
+    for(var z=0;z<depth-1;z++)
+    {
+        for(var x=0;x<width-1;x++)
+        {
+            var a = x+z*width;
+            var b = (x+1) + (z*width);
+            var c = x + ((z+1)*width);
+            var d = (x+1) + ((z+1) * width);
+            
+            var face1 = new THREE.Face3(a,b,c);
+            var face2 = new THREE.Face3(a,b,c);
+            
+            face1.color=new THREE.Color(scale(getHighPoint(geometry,face1)).hex());
+            face2.color=new THREE.Color(scale(getHighPoint(geometry,face2)).hex());
+
+            geometry.faces.push(face1);
+            geometry.faces.push(face2);
+        }
+    }
+    
+    //compute the normals
+    geometry.computeVertexNormals(true);
+    geometry.computeFaceNormals();
+    
+    //setup the materials
+    var mat = new THREE.MeshPhongMaterial();
+    var vertexColors = new THREEFaceColors;
+    mat.shading=THREE.NoShading;
+    
+    //create the mesh
+    var groundMesh = new THREE.Mesh(geometry,mat);
+    groundMesh.translateX(-width/1.5);
+    groundMesh.translateZ(-depth/4);
+    groundMesh.name='terrain';
+    
+    scene.add(groundMesh);
+}
+
+
+function addControlGui(controlObject){
+	var gui = new dat.GUI();
+ gui.add(controlObject,'rotationSpeed',-0.01,0.01);
+ gui.add(controlObject,'opacity',0.1,1);
+ gui.addColor(controlObject,'color');
+}
+
+function addStatsObject()
+{
+stats = new Stats();
+stats.setMode(0);
+
+stats.domElement.style.position = 'absolute';
+stats.domElement.style.left = '0px';
+stats.domElement.style.top = '0px';
+
+document.body.appendChild(stats.domElement);
+}
+
+function render()
+{
+var rotSpeed=control.rotationSpeed;
+var lune = scene.getObjectByName('lune');
+var terre = scene.getObjectByName('terre');
+var nuages = scene.getObjectByName('nuages');
+var spotLight = scene.getObjectByName('spotLight');
+lune.position.x=lune.position.x*Math.cos(rotSpeed/4)+lune.position.z*Math.sin(rotSpeed/4);
+lune.position.z=lune.position.z*Math.cos(rotSpeed/4)-lune.position.x*Math.sin(rotSpeed/4);
+terre.material.opacity = control.opacity;
+terre.material.color = new THREE.Color(control.color);
+terre.rotateY(rotSpeed);
+nuages.rotateY(rotSpeed);
+lune.rotateY(rotSpeed*2);
+stats.update();
+cameraControl.update();
+renderer.render(scene,camera);
+requestAnimationFrame(render);
+renderer.autoClear = false;
+composer.render();
+}
+
+function handleResize()
+{
+camera.aspect=window.innerWidth/windows.innerHeight;
+camera.updateProjectionMatrix();
+render.setSize(window.innerWidth,window.innerHeight);
+}
+
+
+
+
+		</script>
+	</body>
+</html>
